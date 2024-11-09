@@ -21,54 +21,54 @@ bool MemeField::Tile::HasMeme() const
 
 void MemeField::Tile::Draw(Graphics& gfx) const
 {
-		switch (stat)
+	switch (stat)
+	{
+	case State::Hidden:
+		SpriteCodex::DrawTileButton(gridPos.GridtoScreenPos(), gfx);
+		break;
+	case State::Flagged:
+		SpriteCodex::DrawTileFlag(gridPos.GridtoScreenPos(), gfx);
+		break;
+	case State::Revealed:
+		if (hasMeme)
 		{
-		case State::Hidden:
-			SpriteCodex::DrawTileButton(gridPos.GridtoScreenPos(), gfx);
+			SpriteCodex::DrawTileBomb(gridPos.GridtoScreenPos(), gfx);
 			break;
-		case State::Flagged:
-			SpriteCodex::DrawTileFlag(gridPos.GridtoScreenPos(), gfx);
-			break;
-		case State::Revealed:
-			if (hasMeme)
+		}
+		else
+		{
+			switch (adjacentMemes)
 			{
-				SpriteCodex::DrawTileBomb(gridPos.GridtoScreenPos(), gfx);
+			case 0:
+				SpriteCodex::DrawTile0(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 1:
+				SpriteCodex::DrawTile1(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 2:
+				SpriteCodex::DrawTile2(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 3:
+				SpriteCodex::DrawTile3(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 4:
+				SpriteCodex::DrawTile4(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 5:
+				SpriteCodex::DrawTile5(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 6:
+				SpriteCodex::DrawTile6(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 7:
+				SpriteCodex::DrawTile7(gridPos.GridtoScreenPos(), gfx);
+				break;
+			case 8:
+				SpriteCodex::DrawTile8(gridPos.GridtoScreenPos(), gfx);
 				break;
 			}
-			else
-			{
-				switch (adjacentMemes)
-				{
-				case 0:
-					SpriteCodex::DrawTile0(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 1:
-					SpriteCodex::DrawTile1(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 2:
-					SpriteCodex::DrawTile2(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 3:
-					SpriteCodex::DrawTile3(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 4:
-					SpriteCodex::DrawTile4(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 5:
-					SpriteCodex::DrawTile5(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 6:
-					SpriteCodex::DrawTile6(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 7:
-					SpriteCodex::DrawTile7(gridPos.GridtoScreenPos(), gfx);
-					break;
-				case 8:
-					SpriteCodex::DrawTile8(gridPos.GridtoScreenPos(), gfx);
-					break;
-				}
-			}
 		}
+	}
 }
 
 void MemeField::Tile::RevealTile()
@@ -122,9 +122,9 @@ MemeField::MemeField(int in_Memes)
 
 void MemeField::Draw(Graphics& gfx) const
 {
-	gfx.DrawRect(0, 0, width * SpriteCodex::tileSize - 1, height * SpriteCodex::tileSize - 1, SpriteCodex::baseColor);
+	gfx.DrawRect(250, 120, width * SpriteCodex::tileSize +250 - 1, height * SpriteCodex::tileSize +120 - 1, SpriteCodex::baseColor);
 
-	for (Tile t : tilefield)
+	for (const Tile& t : tilefield)
 	{
 		t.Draw(gfx);
 	}

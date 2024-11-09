@@ -61,14 +61,14 @@ int Vei2::GetLengthSq() const
 
 const Vei2 Vei2::GridtoScreenPos() const
 {
-	int new_x = x * SpriteCodex::tileSize;
-	int new_y = y * SpriteCodex::tileSize;
+	int new_x = x * SpriteCodex::tileSize + 250;
+	int new_y = y * SpriteCodex::tileSize + 120;
 	return Vei2(new_x, new_y);
 }
 
 const Vei2 Vei2::ScreentoGridPos() const
 {
-	int new_x = x / SpriteCodex::tileSize;
-	int new_y = y / SpriteCodex::tileSize;
+	int new_x = (x - 250) / SpriteCodex::tileSize;
+	int new_y = (y - 120) / SpriteCodex::tileSize;
 	return Vei2(new_x, new_y);
 }
