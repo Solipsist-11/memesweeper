@@ -1,5 +1,7 @@
 #include "MemeField.h"
 #include <random>
+#include <cmath>
+#include <assert.h>
 
 MemeField::Tile::Tile(Vei2 in_pos)
 	:
@@ -35,15 +37,43 @@ void MemeField::Tile::Draw(Graphics& gfx) const
 			}
 			else
 			{
-				SpriteCodex::DrawTile0(gridPos.GridtoScreenPos(), gfx);
-				break;
+				switch (adjacentMemes)
+				{
+				case 0:
+					SpriteCodex::DrawTile0(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 1:
+					SpriteCodex::DrawTile1(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 2:
+					SpriteCodex::DrawTile2(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 3:
+					SpriteCodex::DrawTile3(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 4:
+					SpriteCodex::DrawTile4(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 5:
+					SpriteCodex::DrawTile5(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 6:
+					SpriteCodex::DrawTile6(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 7:
+					SpriteCodex::DrawTile7(gridPos.GridtoScreenPos(), gfx);
+					break;
+				case 8:
+					SpriteCodex::DrawTile8(gridPos.GridtoScreenPos(), gfx);
+					break;
+				}
 			}
 		}
 }
 
 void MemeField::Tile::RevealTile()
 {
-	if (stat == State::Hidden)
+	if (stat == State::Hidden && stat != State::Flagged)
 	{
 		stat = State::Revealed;
 	}
@@ -51,7 +81,7 @@ void MemeField::Tile::RevealTile()
 
 void MemeField::Tile::FlagTile()
 {
-	if (stat == State::Hidden)
+	if (stat == State::Hidden && stat != State::Revealed)
 	{
 		stat = State::Flagged;
 	}
@@ -60,6 +90,11 @@ void MemeField::Tile::FlagTile()
 void MemeField::Tile::SetMeme()
 {
 	hasMeme = true;
+}
+
+void MemeField::Tile::SetAdjMemes(int in_adj)
+{
+	adjacentMemes = in_adj;
 }
 
 MemeField::MemeField(int in_Memes)
@@ -73,7 +108,7 @@ MemeField::MemeField(int in_Memes)
 
 	for (int i = 0; i < width * height; i++)
 	{
-		tilefield[i] = Tile(Vei2(i / width, i % width));
+		tilefield[i] = Tile(Vei2(i % width, i / width));
 	}
 	for (int n = 0; n < nMemes; n++)
 	{
@@ -103,4 +138,37 @@ MemeField::Tile& MemeField::TileAt(Vei2 gridP)
 const MemeField::Tile& MemeField::TileAt(Vei2 gridP) const
 {
 	return tilefield[gridP.y * width + gridP.x];
+}
+
+void MemeField::UpdateMemeAdjCounter()
+{
+	for (int i = 0; i < (width * height); i++)
+	{
+		int x = i % width;
+		int y = i / width;
+
+		int x_min = std::max(x - 1, 0);
+		int y_min = std::max(y - 1, 0);
+		int x_max = std::min(x + 1, width - 1);
+		int y_max = std::min(y + 1, height - 1);
+
+		assert(x_min >= 0 && x_max <= width - 1);
+		assert(y_min >= 0 && y_max <= height - 1);
+
+		int memeCounter = 0;
+
+		for (int xn = x_min; xn <= x_max; xn++)
+		{
+			for (int yn = y_min; yn <= y_max; yn++)
+			{
+				if ( TileAt(Vei2(xn, yn)).HasMeme() )
+				{
+					memeCounter++;
+				}
+			}
+		}
+		assert(memeCounter >= 0 && memeCounter <= 8);
+
+		tilefield[i].SetAdjMemes(memeCounter);
+	}
 }

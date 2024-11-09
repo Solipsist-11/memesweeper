@@ -26,16 +26,19 @@ private:
 		void RevealTile();
 		void FlagTile();
 		void SetMeme();
+		void SetAdjMemes(int in_adj);
 	private:
 		Vei2 gridPos;
 		State stat = State::Hidden;
 		bool hasMeme = false;
+		int adjacentMemes = 0;
 	};
 public:
 	MemeField(int in_Memes);
 	void Draw(Graphics& gfx) const;
 	Tile& TileAt(Vei2 gridP);
 	const Tile& TileAt(Vei2 gridP) const;
+	void UpdateMemeAdjCounter();
 private:
 	static constexpr int width = 20;
 	static constexpr int height = 20;

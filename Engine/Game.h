@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "MemeField.h"
+#include "Vei2.h"
 
 class Game
 {

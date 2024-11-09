@@ -27,6 +27,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	mf(20)
 {
+	mf.UpdateMemeAdjCounter();
 }
 
 void Game::Go()
@@ -39,6 +40,18 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.mouse.LeftIsPressed())
+	{
+		Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
+		Vei2 newGPos = newClick.ScreentoGridPos();
+		mf.TileAt(newGPos).RevealTile();
+	}
+	if (wnd.mouse.RightIsPressed())
+	{
+		Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
+		Vei2 newGPos = newClick.ScreentoGridPos();
+		mf.TileAt(newGPos).FlagTile();
+	}
 }
 
 void Game::ComposeFrame()
