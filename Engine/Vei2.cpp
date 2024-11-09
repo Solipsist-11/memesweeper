@@ -1,4 +1,5 @@
 #include "Vei2.h"
+#include "SpriteCodex.h"
 #include <cmath>
 
 Vei2::Vei2( int x_in,int y_in )
@@ -56,4 +57,18 @@ float Vei2::GetLength() const
 int Vei2::GetLengthSq() const
 {
 	return x * x + y * y;
+}
+
+const Vei2 Vei2::GridtoScreenPos() const
+{
+	int new_x = x * SpriteCodex::tileSize;
+	int new_y = y * SpriteCodex::tileSize;
+	return Vei2(new_x, new_y);
+}
+
+const Vei2 Vei2::ScreentoGridPos() const
+{
+	int new_x = x / SpriteCodex::tileSize;
+	int new_y = y / SpriteCodex::tileSize;
+	return Vei2(new_x, new_y);
 }

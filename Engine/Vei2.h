@@ -15,6 +15,8 @@ public:
 	Vei2& operator/=( int rhs );
 	float GetLength() const;
 	int GetLengthSq() const;
+	const Vei2 GridtoScreenPos() const;
+	const Vei2 ScreentoGridPos() const;
 public:
 	int x;
 	int y;
