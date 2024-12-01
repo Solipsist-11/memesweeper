@@ -40,22 +40,32 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.mouse.LeftIsPressed())
+	if (!mf.GameOverCheck())
 	{
-		Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
-		Vei2 newGPos = newClick.ScreentoGridPos();
-		mf.TileAt(newGPos).RevealTile();
-	}
-	if (wnd.mouse.RightIsPressed())
-	{
-		Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
-		Vei2 newGPos = newClick.ScreentoGridPos();
-		mf.TileAt(newGPos).FlagTile();
+		if (wnd.mouse.LeftIsPressed())
+		{
+			Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
+			Vei2 newGPos = newClick.ScreentoGridPos();
+			mf.TileAt(newGPos).RevealTile();
+		}
+		if (wnd.mouse.RightIsPressed())
+		{
+			Vei2 newClick = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
+			Vei2 newGPos = newClick.ScreentoGridPos();
+			mf.TileAt(newGPos).FlagTile();
+		}
 	}
 }
 
 void Game::ComposeFrame()
 {
 	mf.Draw(gfx);
-	-
+	if (mf.GameOverCheck())
+	{
+		gfx.DrawRect(200, 200, 300, 300, Colors::Red);
+	}
+	if (mf.WinCheck())
+	{
+		gfx.DrawRect(200, 200, 300, 300, Colors::Green);
+	}
 }
