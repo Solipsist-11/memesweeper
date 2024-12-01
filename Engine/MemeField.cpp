@@ -97,6 +97,17 @@ void MemeField::Tile::SetAdjMemes(int in_adj)
 	adjacentMemes = in_adj;
 }
 
+bool MemeField::Tile::CheckFlag()
+{
+	return(stat == State::Flagged);
+}
+
+bool MemeField::Tile::HasRevealedMeme()
+{
+	
+	return (hasMeme == true && stat == State::Revealed);
+}
+
 MemeField::MemeField(int in_Memes)
 	:
 	nMemes(in_Memes)
@@ -116,6 +127,7 @@ MemeField::MemeField(int in_Memes)
 		do
 		{
 			TileAt(newPos).SetMeme();
+			memearray[n] = newPos.y * width + newPos.x;
 		} while (!tilefield[newPos.y * width + newPos.x].HasMeme());
 	}
 }
@@ -171,4 +183,24 @@ void MemeField::UpdateMemeAdjCounter()
 
 		tilefield[i].SetAdjMemes(memeCounter);
 	}
+}
+
+bool MemeField::GameOverCheck()
+{
+	bool GameOver = false;
+	for (int n = 0; n < nMemes; n++)
+	{
+		GameOver = GameOver || tilefield[memearray[n]].HasRevealedMeme();
+	}
+	return GameOver;
+}
+
+bool MemeField::WinCheck()
+{
+	bool game_win = true;
+	for (int n = 0; n < nMemes; n++)
+	{
+		game_win = game_win && tilefield[memearray[n]].CheckFlag();
+	}
+	return game_win;
 }

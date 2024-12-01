@@ -27,6 +27,8 @@ private:
 		void FlagTile();
 		void SetMeme();
 		void SetAdjMemes(int in_adj);
+		bool CheckFlag();
+		bool HasRevealedMeme();
 	private:
 		Vei2 gridPos;
 		State stat = State::Hidden;
@@ -39,13 +41,16 @@ public:
 	Tile& TileAt(Vei2 gridP);
 	const Tile& TileAt(Vei2 gridP) const;
 	void UpdateMemeAdjCounter();
+	bool GameOverCheck();
+	bool WinCheck();
 private:
 	static constexpr int width = 20;
 	static constexpr int height = 20;
 	Tile tilefield[width * height];
-	int nMemes = 0;
+	int nMemes= 0;
+	int memearray[20];
 	static constexpr int offset_x = 250;
 	static constexpr int offset_y = 200;
-	
+
 };
 

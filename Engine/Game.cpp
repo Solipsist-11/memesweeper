@@ -57,4 +57,5 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	mf.Draw(gfx);
+	-
 }
